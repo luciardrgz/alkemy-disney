@@ -1,0 +1,59 @@
+package com.alkemy.disney.disney.entities;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "titles")
+@SQLDelete(sql = "UPDATE titles SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
+public class TitleEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    private String image;
+    private String name;
+    private Integer score;
+    private boolean deleted = Boolean.FALSE;
+
+    private LocalDate creationDate;
+    @Column(name = "creation_date")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    }
+    )
+    @JoinTable(
+            name = "characters_in_this_title",
+            joinColumns = @JoinColumn(name = "title_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id"))
+    private List<CharacterEntity>characters = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade =
+            {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinColumn(name = "genre_id", insertable = false, updatable = false)
+    private GenreEntity genre;
+
+    @Column(name = "genre_id", nullable = false)
+    private Long genreId;
+
+
+
+}
+
