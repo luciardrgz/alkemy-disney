@@ -17,6 +17,7 @@ public class CharacterMapper {
     @Autowired
     public TitleMapper titleMapper;
 
+    // Converts a Character DTO to Entity
     public CharacterEntity characterDTO2Entity(CharacterDTO dto){
         CharacterEntity entity = new CharacterEntity();
         entity.setImage(dto.getImage());
@@ -28,7 +29,8 @@ public class CharacterMapper {
         return entity;
     }
 
-    public CharacterDTO characterEntity2DTO(CharacterEntity entity){
+    // Converts a Character Entity to DTO
+    public CharacterDTO characterEntity2DTO(CharacterEntity entity, boolean loadTitles){
         CharacterDTO dto = new CharacterDTO();
         dto.setId(entity.getId());
         dto.setImage(entity.getImage());
@@ -37,23 +39,28 @@ public class CharacterMapper {
         dto.setWeight(entity.getWeight());
         dto.setStory(entity.getStory());
 
-        List<TitleDTO>titleDTOS = this.titleMapper.titleEntity2DTOList(entity.getTitles());
-        dto.setTitles(titleDTOS);
-
+        if(loadTitles)
+        {
+            List<TitleDTO>titleDTOS = this.titleMapper.titleEntity2DTOList(entity.getTitles(), false);
+            dto.setTitles(titleDTOS);
+        }
         return dto;
     }
 
-    public List<CharacterDTO> characterEntity2DTOList(List<CharacterEntity>entities)
+    // Converts a Character Entity List to a DTO List
+    public List<CharacterDTO> characterEntity2DTOList(List<CharacterEntity>entities, boolean loadTitles)
     {
         List<CharacterDTO>dtos = new ArrayList<>();
 
         for(CharacterEntity entity : entities)
         {
-            dtos.add(this.characterEntity2DTO(entity));
+            dtos.add(this.characterEntity2DTO(entity, loadTitles));
         }
+
         return dtos;
     }
 
+    // Converts a Character DTO List to an Entity List
     public List<CharacterEntity> characterDTO2EntityList(List<CharacterDTO>dtos)
     {
         List<CharacterEntity>entities = new ArrayList<>();
@@ -64,6 +71,16 @@ public class CharacterMapper {
         }
 
         return entities;
+    }
+
+    // Modifies the Entity's info with the DTO info received, it's gonna be saved in Repository by Service
+    public void modifyCharacterValues(CharacterEntity entity, CharacterDTO dto)
+    {
+        entity.setImage(dto.getImage());
+        entity.setName(dto.getName());
+        entity.setAge(dto.getAge());
+        entity.setWeight(dto.getWeight());
+        entity.setStory(dto.getStory());
     }
 
 }

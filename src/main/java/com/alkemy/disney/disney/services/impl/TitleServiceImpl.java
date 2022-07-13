@@ -3,6 +3,7 @@ package com.alkemy.disney.disney.services.impl;
 import com.alkemy.disney.disney.dto.TitleDTO;
 import com.alkemy.disney.disney.entities.CharacterEntity;
 import com.alkemy.disney.disney.entities.TitleEntity;
+import com.alkemy.disney.disney.exceptions.ParamNotFound;
 import com.alkemy.disney.disney.mappers.TitleMapper;
 import com.alkemy.disney.disney.repositories.TitleRepository;
 import com.alkemy.disney.disney.services.CharacterService;
@@ -30,15 +31,15 @@ public class TitleServiceImpl implements TitleService {
     {
         TitleEntity entity = titleMapper.titleDTO2Entity(dto);
         TitleEntity savedEntity = titleRepository.save(entity);
-        TitleDTO result = titleMapper.titleEntity2DTO(savedEntity);
+        TitleDTO result = titleMapper.titleEntity2DTO(savedEntity, true);
         return result;
     }
 
     // Searches for an id in Titles Repository
     public TitleEntity getTitleById(Long id) {
         Optional<TitleEntity> entity = titleRepository.findById(id);
-        if (!entity.isPresent()) {
-            // Error message (not found)
+        if(!entity.isPresent()){
+            throw new ParamNotFound("Title ID not found");
         }
         return entity.get();
     }
@@ -46,14 +47,14 @@ public class TitleServiceImpl implements TitleService {
     // Searches for an id in Titles Repository and converts the entity into a DTO
     public TitleDTO getTitleDTOById(Long id){
         Optional<TitleEntity> entity = titleRepository.findById(id);
-        if (!entity.isPresent()) {
-            // Error message (not found)
+        if(!entity.isPresent()) {
+            throw new ParamNotFound("Title ID not found");
         }
-        TitleDTO titleDTO = this.titleMapper.titleEntity2DTO(entity.get());
+        TitleDTO titleDTO = this.titleMapper.titleEntity2DTO(entity.get(), true);
         return titleDTO;
     }
 
-    // Adds a Character to a Title
+    // Adds a Character to a list of Characters in a Title
     public void addCharacter(Long titleId, Long characterId)
     {
         TitleEntity titleEntity = getTitleById(titleId);

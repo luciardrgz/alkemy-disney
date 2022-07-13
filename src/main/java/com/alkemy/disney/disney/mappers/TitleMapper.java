@@ -1,5 +1,6 @@
 package com.alkemy.disney.disney.mappers;
 
+import com.alkemy.disney.disney.dto.CharacterDTO;
 import com.alkemy.disney.disney.dto.TitleDTO;
 import com.alkemy.disney.disney.entities.CharacterEntity;
 import com.alkemy.disney.disney.entities.TitleEntity;
@@ -17,6 +18,7 @@ public class TitleMapper {
     @Autowired
     private CharacterMapper characterMapper;
 
+    // Converts a Title DTO to Entity
     public TitleEntity titleDTO2Entity(TitleDTO dto){
         TitleEntity entity = new TitleEntity();
         entity.setImage(dto.getImage());
@@ -30,26 +32,36 @@ public class TitleMapper {
         return entity;
     }
 
-    public TitleDTO titleEntity2DTO(TitleEntity entity) {
+    // Converts a Title Entity to DTO
+    public TitleDTO titleEntity2DTO(TitleEntity entity, boolean loadCharacters) {
         TitleDTO dto = new TitleDTO();
         dto.setId(entity.getId());
         dto.setImage(entity.getImage());
         dto.setName(entity.getName());
         dto.setGenreId(entity.getGenreId());
+
+        if(loadCharacters)
+        {
+            List<CharacterDTO> characterDTOS = this.characterMapper.characterEntity2DTOList(entity.getCharacters(),false);
+            dto.setCharacters(characterDTOS);
+        }
+
         return dto;
     }
 
-    public List<TitleDTO> titleEntity2DTOList(List<TitleEntity>entities)
+    // Converts a Title Entity List to a DTO List
+    public List<TitleDTO> titleEntity2DTOList(List<TitleEntity>entities, boolean loadCharacters)
     {
         List<TitleDTO>dtos = new ArrayList<>();
 
         for(TitleEntity entity : entities)
         {
-            dtos.add(this.titleEntity2DTO(entity));
+            dtos.add(this.titleEntity2DTO(entity, loadCharacters));
         }
         return dtos;
     }
 
+    // Converts a Title DTO List to an Entity List
     public List<TitleEntity> titleDTO2EntityList(List<TitleDTO>dtos)
     {
         List<TitleEntity>entities = new ArrayList<>();

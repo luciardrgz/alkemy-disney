@@ -19,7 +19,7 @@ public class TitleDTO {
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate creationDate;
 
-    private Integer score;
+    private Integer score; // 1 to 5
 
     private Long genreId;
 

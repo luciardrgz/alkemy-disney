@@ -14,5 +14,5 @@ public class CharacterDTO {
     private Integer age;
     private Integer weight;
     private String story;
-    private List<TitleDTO>titles;
+    private List<TitleDTO> titles;
 }
