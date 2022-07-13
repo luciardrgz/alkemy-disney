@@ -1,9 +1,9 @@
 package com.alkemy.disney.disney.repositories;
 
-import com.alkemy.disney.disney.entities.TitleEntity;
+import com.alkemy.disney.disney.entities.CharacterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TitleRepository extends JpaRepository<TitleEntity, Long> {
+public interface CharacterRepository extends JpaRepository<CharacterEntity, Long> {
 }
