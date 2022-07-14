@@ -10,6 +10,7 @@ import com.alkemy.disney.disney.services.CharacterService;
 import com.alkemy.disney.disney.services.TitleService;
 import com.alkemy.disney.disney.repositories.specifications.CharacterSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class CharacterServiceImpl implements CharacterService {
     private TitleService titleService;
     private CharacterSpecification characterSpecification;
 
+    @Lazy
     @Autowired
     public CharacterServiceImpl(CharacterMapper characterMapper,
                                 CharacterRepository characterRepository,
@@ -91,6 +93,13 @@ public class CharacterServiceImpl implements CharacterService {
         return dtos;
     }
 
+    // Returns all Characters saved in Repository
+    public List<CharacterDTO> getCharacters()
+    {
+        List<CharacterEntity> entities = characterRepository.findAll();
+        List<CharacterDTO>result = characterMapper.characterEntity2DTOList(entities,true);
+        return result;
+    }
 
 
 }

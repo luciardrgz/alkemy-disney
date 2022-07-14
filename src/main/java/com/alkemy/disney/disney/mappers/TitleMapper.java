@@ -18,6 +18,7 @@ public class TitleMapper {
     @Autowired
     private CharacterMapper characterMapper;
 
+
     // Converts a Title DTO to Entity
     public TitleEntity titleDTO2Entity(TitleDTO dto){
         TitleEntity entity = new TitleEntity();
@@ -71,5 +72,21 @@ public class TitleMapper {
             entities.add(this.titleDTO2Entity(dto));
         }
         return entities;
+    }
+
+
+    // Modifies the Entity's info with the DTO info received, it's gonna be saved in Repository by Service
+    public void modifyTitleValues(TitleEntity entity, TitleDTO dto)
+    {
+        entity.setImage(dto.getImage());
+        entity.setName(dto.getName());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setScore(dto.getScore());
+        entity.setGenreId(dto.getGenreId());
+        List<CharacterEntity>characterEntities = this.characterMapper.characterDTO2EntityList(dto.getCharacters());
+
+        for(CharacterEntity characterEntity : characterEntities){
+            entity.getCharacters().add(characterEntity);
+        }
     }
 }

@@ -64,4 +64,19 @@ public class TitleServiceImpl implements TitleService {
         titleEntity.setCharacters(entities);
         titleRepository.save(titleEntity);
     }
+
+    // Invokes a mapper method and modifies Title values
+    public TitleDTO updateTitle(Long id, TitleDTO titleDTO){
+        Optional<TitleEntity>entity = titleRepository.findById(id);
+
+        if(!entity.isPresent())
+        {
+            throw new ParamNotFound("Title ID to modify not found");
+        }
+        this.titleMapper.modifyTitleValues(entity.get(),titleDTO);
+        TitleEntity savedEntity = this.titleRepository.save(entity.get());
+        TitleDTO result = this.titleMapper.titleEntity2DTO(savedEntity, true);
+
+        return result;
+    }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 @Component
 public class GenreMapper {
 
+    // Converts a Genre DTO to Entity
     public GenreEntity genreDTO2Entity(GenreDTO dto)
     {
         GenreEntity entity = new GenreEntity();
@@ -18,6 +19,7 @@ public class GenreMapper {
         return entity;
     }
 
+    // Converts a Genre Entity to DTO
     public GenreDTO genreEntity2DTO(GenreEntity entity)
     {
         GenreDTO dto = new GenreDTO();
@@ -27,6 +29,7 @@ public class GenreMapper {
         return dto;
     }
 
+    // Converts a Genre Entity List to a DTO List
     public List<GenreDTO> genreEntityList2DTOList (List<GenreEntity>entities)
     {
         List<GenreDTO>dtos = new ArrayList<>();
@@ -38,6 +41,7 @@ public class GenreMapper {
         return dtos;
     }
 
+    // Converts a Genre DTO List to a Entity List
     public List<GenreEntity> genreDTOList2EntityList(List<GenreDTO>dtos)
     {
         List<GenreEntity>entities = new ArrayList<>();
