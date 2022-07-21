@@ -69,6 +69,15 @@ public class CharacterServiceImpl implements CharacterService {
         return characterDTO;
     }
 
+    // Character search filtered by Name, Age, Weight, Titles - has ASC/DESC order
+    public List<CharacterDTO> getByFilters(String name, Integer age, Integer weight, List<Long>titles)
+    {
+        CharacterFiltersDTO filtersDTO = new CharacterFiltersDTO(name, age, weight, titles);
+        List<CharacterEntity> entities = this.characterRepository.findAll(this.characterSpecification.getByFilters(filtersDTO));
+        List<CharacterDTO> dtos = this.characterMapper.characterEntity2DTOList(entities,true);
+        return dtos;
+    }
+
     // Invokes a mapper method and modifies Character values only
     public CharacterDTO updateCharacter(Long id, CharacterDTO characterDTO)
     {
@@ -82,15 +91,6 @@ public class CharacterServiceImpl implements CharacterService {
         CharacterDTO result = this.characterMapper.characterEntity2DTO(savedEntity, true);
 
         return result;
-    }
-
-    // Character search filtered by Name, Age, Weight, Titles - has ASC/DESC order
-    public List<CharacterDTO> getByFilters(String name, Integer age, Integer weight, List<Long>titles, String order)
-    {
-        CharacterFiltersDTO filtersDTO = new CharacterFiltersDTO(name, age, weight, titles, order);
-        List<CharacterEntity> entities = this.characterRepository.findAll(this.characterSpecification.getByFilters(filtersDTO));
-        List<CharacterDTO> dtos = this.characterMapper.characterEntity2DTOList(entities,true);
-        return dtos;
     }
 
     // Returns all Characters saved in Repository with them associated titles

@@ -17,9 +17,9 @@ public class CharacterFiltersDTO {
     private Integer age;
     private Integer weight;
     private List<Long>titles;
-    private String order;
 
     // Order Comparators
+    /*
     public boolean isASC(){
         return this.order.compareToIgnoreCase("ASC") == 0;
     }
@@ -27,6 +27,8 @@ public class CharacterFiltersDTO {
     public boolean isDESC(){
         return this.order.compareToIgnoreCase("DESC") == 0;
     }
+
+     */
 
 
 

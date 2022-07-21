@@ -40,5 +40,31 @@ public class TitleController {
         return ResponseEntity.ok().body(titles);
     }
 
+    @PutMapping("/{id}") // Updates a Title
+    public ResponseEntity<TitleDTO>update(@PathVariable Long id, @RequestBody TitleDTO title){
+        TitleDTO returnable = this.titleService.updateTitle(id,title);
+        return ResponseEntity.ok().body(returnable);
+    }
+
+    @DeleteMapping("/{id}") // Deletes a Title
+    public ResponseEntity<Void>delete(@PathVariable Long id){
+        this.titleService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/{titleId}/character/{characterId}")
+    public ResponseEntity<TitleDTO>addCharacterToTitle(@PathVariable Long titleId, @PathVariable Long characterId) {
+        titleService.addCharacter(titleId,characterId);
+        return ResponseEntity.ok().body(titleService.getTitleDTOById(titleId));
+    }
+
+    @DeleteMapping("/{titleId}/character/{characterId}")
+        public ResponseEntity<TitleDTO>removeCharacterFromTitle(@PathVariable Long titleId, @PathVariable Long characterId){
+        titleService.removeCharacter(titleId,characterId);
+        return ResponseEntity.ok().body(titleService.getTitleDTOById(titleId));
+    }
+
+
+
 
 }

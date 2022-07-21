@@ -1,5 +1,6 @@
 package com.alkemy.disney.disney.dto;
 
+import com.alkemy.disney.disney.entities.GenreEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,10 +17,12 @@ public class TitleDTO {
 
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
 
     private Integer score; // 1 to 5
+
+    //private GenreEntity genre;
 
     private Long genreId;
 

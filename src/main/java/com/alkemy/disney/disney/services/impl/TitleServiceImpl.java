@@ -11,7 +11,9 @@ import com.alkemy.disney.disney.repositories.specifications.TitleSpecification;
 import com.alkemy.disney.disney.services.CharacterService;
 import com.alkemy.disney.disney.services.TitleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,17 +21,23 @@ import java.util.Optional;
 @Service
 public class TitleServiceImpl implements TitleService {
 
-    @Autowired
     private TitleMapper titleMapper;
-
-    @Autowired
     private TitleRepository titleRepository;
-
-    @Autowired
     private CharacterService characterService;
-
-    @Autowired
     private TitleSpecification titleSpecification;
+
+    @Lazy
+    @Autowired
+    public TitleServiceImpl(TitleMapper titleMapper,
+                            TitleRepository titleRepository,
+                            CharacterService characterService,
+                            TitleSpecification titleSpecification){
+        this.titleMapper = titleMapper;
+        this.titleRepository = titleRepository;
+        this.characterService = characterService;
+        this.titleSpecification = titleSpecification;
+    }
+
 
     // Saves a title in Titles Repository
     public TitleDTO save(TitleDTO dto)
@@ -59,6 +67,16 @@ public class TitleServiceImpl implements TitleService {
         return titleDTO;
     }
 
+    // Title search filtered by Name and Genre - has ASC/DESC order
+    public List<TitleDTO> getByFilters(String name, Long genreId, String order)
+    {
+        TitleFiltersDTO filtersDTO = new TitleFiltersDTO(name, genreId, order);
+        List<TitleEntity>entities = this.titleRepository.findAll(this.titleSpecification.getByFilters(filtersDTO));
+        List<TitleDTO>dtos = this.titleMapper.titleEntity2DTOList(entities,true);
+
+        return dtos;
+    }
+
     // Invokes a mapper method and modifies Title values
     public TitleDTO updateTitle(Long id, TitleDTO titleDTO){
         Optional<TitleEntity>entity = titleRepository.findById(id);
@@ -72,16 +90,6 @@ public class TitleServiceImpl implements TitleService {
         TitleDTO result = this.titleMapper.titleEntity2DTO(savedEntity, true);
 
         return result;
-    }
-
-    // Title search filtered by Name and Genre - has ASC/DESC order
-    public List<TitleDTO> getByFilters(String name, Long genreId, String order)
-    {
-        TitleFiltersDTO filtersDTO = new TitleFiltersDTO(name, genreId, order);
-        List<TitleEntity>entities = this.titleRepository.findAll(this.titleSpecification.getByFilters(filtersDTO));
-        List<TitleDTO>dtos = this.titleMapper.titleEntity2DTOList(entities,true);
-
-        return dtos;
     }
 
     // Adds a Character to a list of Characters in a Title

@@ -22,9 +22,11 @@ public class GenreEntity {
     private Long id;
     private String image;
     private String name;
+
     private boolean deleted = Boolean.FALSE;
 
     @OneToMany (mappedBy = "genre", cascade = CascadeType.PERSIST)
     private List<TitleEntity>titles = new ArrayList<>();
+
 
 }

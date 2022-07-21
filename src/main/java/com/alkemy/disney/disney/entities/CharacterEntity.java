@@ -27,6 +27,7 @@ public class CharacterEntity {
     private String story;
     private boolean deleted = Boolean.FALSE;
 
-    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "characters", cascade = {
+            CascadeType.ALL})
     private List<TitleEntity> titles = new ArrayList<>();
 }

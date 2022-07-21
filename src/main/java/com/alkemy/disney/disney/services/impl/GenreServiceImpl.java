@@ -8,6 +8,7 @@ import com.alkemy.disney.disney.mappers.GenreMapper;
 import com.alkemy.disney.disney.repositories.GenreRepository;
 import com.alkemy.disney.disney.services.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +17,16 @@ import java.util.Optional;
 @Service
 public class GenreServiceImpl implements GenreService {
 
-    @Autowired
     private GenreMapper genreMapper;
-
-    @Autowired
     private GenreRepository genreRepository;
+
+    @Lazy
+    @Autowired
+    public GenreServiceImpl(GenreMapper genreMapper, GenreRepository genreRepository)
+    {
+        this.genreMapper = genreMapper;
+        this.genreRepository = genreRepository;
+    }
 
     // Saves a Genre in Repository
     public GenreDTO save(GenreDTO dto)

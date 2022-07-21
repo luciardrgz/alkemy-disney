@@ -13,6 +13,8 @@ public interface TitleService {
 
     void addCharacter(Long titleId, Long characterId);
 
+    void removeCharacter(Long titleId, Long characterId);
+
     List<TitleDTO> getByFilters(String name, Long genreId, String order);
 
     TitleDTO getTitleDTOById(Long id);

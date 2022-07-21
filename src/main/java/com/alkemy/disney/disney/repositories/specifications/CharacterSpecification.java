@@ -65,13 +65,6 @@ public class CharacterSpecification{
             // Removing duplicates
             query.distinct(true);
 
-            // Order set
-            String orderByField = "name";
-            query.orderBy(
-                    filtersDTO.isASC() ?
-                            criteriaBuilder.asc(root.get(orderByField)) : criteriaBuilder.desc(root.get(orderByField))
-            );
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
