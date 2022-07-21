@@ -23,7 +23,7 @@ public class CharacterSpecification{
     {
         return(root, query, criteriaBuilder) -> {
 
-            // Predicate for Dynamic Queries
+            // Predicate List for Dynamic Queries
             List<Predicate>predicates = new ArrayList<>();
 
             // Name

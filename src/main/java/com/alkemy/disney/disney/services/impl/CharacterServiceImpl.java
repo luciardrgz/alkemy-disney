@@ -93,12 +93,23 @@ public class CharacterServiceImpl implements CharacterService {
         return dtos;
     }
 
-    // Returns all Characters saved in Repository
+    // Returns all Characters saved in Repository with them associated titles
     public List<CharacterDTO> getCharacters()
     {
         List<CharacterEntity> entities = characterRepository.findAll();
         List<CharacterDTO>result = characterMapper.characterEntity2DTOList(entities,true);
         return result;
+    }
+
+    // Soft Delete of a Character saved in Repository
+    public void delete(Long id)
+    {
+        Optional<CharacterEntity>entity = this.characterRepository.findById(id);
+        if(!entity.isPresent())
+        {
+            throw new ParamNotFound("Character ID not found, failed to delete");
+        }
+        this.characterRepository.deleteById(id);
     }
 
 
