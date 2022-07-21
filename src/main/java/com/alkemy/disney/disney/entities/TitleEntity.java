@@ -29,27 +29,20 @@ public class TitleEntity {
 
     @Column(name = "creation_date")
     @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDate creationDate;
+    private LocalDate creationDate = LocalDate.now();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "characters_in_this_title",
             joinColumns = @JoinColumn(name = "title_id"),
             inverseJoinColumns = @JoinColumn(name = "character_id"))
     private List<CharacterEntity>characters = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "genre_id", insertable = false, updatable = false)
     private GenreEntity genre;
 
     @Column(name = "genre_id", nullable = false)
     private Long genreId;
-
-
-
 }
 
