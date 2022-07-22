@@ -29,7 +29,7 @@ public class TitleEntity {
 
     @Column(name = "creation_date")
     @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDate creationDate = LocalDate.now();
+    private LocalDate creationDate;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(

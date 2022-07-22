@@ -29,7 +29,7 @@ public class TitleMapper {
         entity.setGenreId(dto.getGenreId());
 
         List<CharacterEntity> characterEntities = this.characterMapper.characterDTO2EntityList(dto.getCharacters());
-
+        entity.setCharacters(characterEntities);
         return entity;
     }
 

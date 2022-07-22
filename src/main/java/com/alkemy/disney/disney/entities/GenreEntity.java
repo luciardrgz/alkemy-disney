@@ -18,7 +18,7 @@ import java.util.List;
 public class GenreEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String image;
     private String name;
@@ -27,6 +27,4 @@ public class GenreEntity {
 
     @OneToMany (mappedBy = "genre", cascade = CascadeType.PERSIST)
     private List<TitleEntity>titles = new ArrayList<>();
-
-
 }
