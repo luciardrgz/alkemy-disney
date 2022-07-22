@@ -22,8 +22,6 @@ public class TitleDTO {
 
     private Integer score; // 1 to 5
 
-    //private GenreEntity genre;
-
     private Long genreId;
 
     private List<CharacterDTO> characters;
