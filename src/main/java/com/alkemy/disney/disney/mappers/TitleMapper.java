@@ -25,7 +25,6 @@ public class TitleMapper {
         entity.setName(dto.getName());
         entity.setCreationDate(dto.getCreationDate());
         entity.setScore(dto.getScore());
-        //entity.setGenre(dto.getGenre());
         entity.setGenreId(dto.getGenreId());
 
         List<CharacterEntity> characterEntities = this.characterMapper.characterDTO2EntityList(dto.getCharacters());
@@ -39,7 +38,8 @@ public class TitleMapper {
         dto.setId(entity.getId());
         dto.setImage(entity.getImage());
         dto.setName(entity.getName());
-        //dto.setGenre(entity.getGenre());
+        dto.setCreationDate(entity.getCreationDate());
+        dto.setScore(entity.getScore());
         dto.setGenreId(entity.getGenreId());
 
         if(loadCharacters)
@@ -83,7 +83,6 @@ public class TitleMapper {
         entity.setName(dto.getName());
         entity.setCreationDate(dto.getCreationDate());
         entity.setScore(dto.getScore());
-        //entity.setGenre(dto.getGenre());
         entity.setGenreId(dto.getGenreId());
         List<CharacterEntity>characterEntities = this.characterMapper.characterDTO2EntityList(dto.getCharacters());
 
