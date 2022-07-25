@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class TitleMapper {
@@ -27,7 +28,7 @@ public class TitleMapper {
         entity.setScore(dto.getScore());
         entity.setGenreId(dto.getGenreId());
 
-        List<CharacterEntity> characterEntities = this.characterMapper.characterDTO2EntityList(dto.getCharacters());
+        Set<CharacterEntity> characterEntities = this.characterMapper.characterDTOList2EntitySet(dto.getCharacters());
         entity.setCharacters(characterEntities);
         return entity;
     }
@@ -44,7 +45,7 @@ public class TitleMapper {
 
         if(loadCharacters)
         {
-            List<CharacterDTO> characterDTOS = this.characterMapper.characterEntity2DTOList(entity.getCharacters(),false);
+            List<CharacterDTO> characterDTOS = this.characterMapper.characterEntitySet2DTOList(entity.getCharacters(),false);
             dto.setCharacters(characterDTOS);
         }
 
@@ -84,7 +85,7 @@ public class TitleMapper {
         entity.setCreationDate(dto.getCreationDate());
         entity.setScore(dto.getScore());
         entity.setGenreId(dto.getGenreId());
-        List<CharacterEntity>characterEntities = this.characterMapper.characterDTO2EntityList(dto.getCharacters());
+        List<CharacterEntity>characterEntities = this.characterMapper.characterDTOList2EntityList(dto.getCharacters());
 
         for(CharacterEntity characterEntity : characterEntities){
             entity.getCharacters().add(characterEntity);

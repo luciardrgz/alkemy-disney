@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class CharacterMapper {
@@ -48,9 +47,9 @@ public class CharacterMapper {
     }
 
     // Converts a Character Entity List to a DTO List
-    public List<CharacterDTO> characterEntity2DTOList(List<CharacterEntity>entities, boolean loadTitles)
+    public List<CharacterDTO> characterEntitySet2DTOList(Collection<CharacterEntity> entities, boolean loadTitles)
     {
-        List<CharacterDTO>dtos = new ArrayList<>();
+        List<CharacterDTO> dtos = new ArrayList<>();
 
         for(CharacterEntity entity : entities)
         {
@@ -61,9 +60,21 @@ public class CharacterMapper {
     }
 
     // Converts a Character DTO List to an Entity List
-    public List<CharacterEntity> characterDTO2EntityList(List<CharacterDTO>dtos)
+    public List<CharacterEntity> characterDTOList2EntityList(List<CharacterDTO>dtos)
     {
         List<CharacterEntity>entities = new ArrayList<>();
+
+        for(CharacterDTO dto : dtos)
+        {
+            entities.add(this.characterDTO2Entity(dto));
+        }
+
+        return entities;
+    }
+
+    public Set<CharacterEntity> characterDTOList2EntitySet(List<CharacterDTO>dtos)
+    {
+        Set<CharacterEntity> entities = new HashSet<>();
 
         for(CharacterDTO dto : dtos)
         {

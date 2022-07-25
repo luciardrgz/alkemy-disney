@@ -12,16 +12,19 @@ import com.alkemy.disney.disney.services.CharacterService;
 import com.alkemy.disney.disney.services.TitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class TitleServiceImpl implements TitleService {
 
     private TitleMapper titleMapper;
+    private TitleService titleService;
     private TitleRepository titleRepository;
     private CharacterService characterService;
     private TitleSpecification titleSpecification;
@@ -29,10 +32,12 @@ public class TitleServiceImpl implements TitleService {
     @Lazy
     @Autowired
     public TitleServiceImpl(TitleMapper titleMapper,
+                            TitleService titleService,
                             TitleRepository titleRepository,
                             CharacterService characterService,
                             TitleSpecification titleSpecification){
         this.titleMapper = titleMapper;
+        this.titleService = titleService;
         this.titleRepository = titleRepository;
         this.characterService = characterService;
         this.titleSpecification = titleSpecification;
@@ -96,10 +101,13 @@ public class TitleServiceImpl implements TitleService {
     public void addCharacter(Long titleId, Long characterId)
     {
         TitleEntity titleEntity = getTitleById(titleId);
-        List<CharacterEntity>entities = titleEntity.getCharacters();
+        Set<CharacterEntity> entities = titleEntity.getCharacters();
 
-        entities.add(characterService.getCharacterById(characterId));
-        titleEntity.setCharacters(entities);
+        if(characterService.getCharacterById(characterId) == null)
+        {
+            entities.add(characterService.getCharacterById(characterId));
+            titleEntity.setCharacters(entities);
+        }
         titleRepository.save(titleEntity);
     }
 
@@ -107,7 +115,7 @@ public class TitleServiceImpl implements TitleService {
     public void removeCharacter(Long titleId, Long characterId)
     {
         TitleEntity titleEntity = getTitleById(titleId);
-        List<CharacterEntity>entities = titleEntity.getCharacters();
+        Set<CharacterEntity>entities = titleEntity.getCharacters();
 
         entities.remove(characterService.getCharacterById(characterId));
         titleEntity.setCharacters(entities);

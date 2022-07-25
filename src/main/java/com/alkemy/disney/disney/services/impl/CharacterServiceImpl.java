@@ -74,7 +74,7 @@ public class CharacterServiceImpl implements CharacterService {
     {
         CharacterFiltersDTO filtersDTO = new CharacterFiltersDTO(name, age, weight, titles);
         List<CharacterEntity> entities = this.characterRepository.findAll(this.characterSpecification.getByFilters(filtersDTO));
-        List<CharacterDTO> dtos = this.characterMapper.characterEntity2DTOList(entities,true);
+        List<CharacterDTO> dtos = this.characterMapper.characterEntitySet2DTOList(entities,true);
         return dtos;
     }
 
@@ -97,7 +97,7 @@ public class CharacterServiceImpl implements CharacterService {
     public List<CharacterDTO> getCharacters()
     {
         List<CharacterEntity> entities = characterRepository.findAll();
-        List<CharacterDTO>result = characterMapper.characterEntity2DTOList(entities,true);
+        List<CharacterDTO>result = characterMapper.characterEntitySet2DTOList(entities,true);
         return result;
     }
 
